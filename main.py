@@ -1,41 +1,43 @@
-from fastapi import FastAPI,Header
-from typing import Optional
-from pydantic import BaseModel
-
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
-@app.get("/")
-async def read_root():
-    return{"message": "Hello, World!"}
+books = [
+    {
+        "id": 1,
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "publisher": "Charles Scribner's Sons",
+        "publish_date": "1925-04-10",
+        "page_count": 218,
+        "language": "English",
+    },
+    {
+        "id": 2,
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "publisher": "J.B. Lippincott & Co.",
+        "publish_date": "1960-07-11",
+        "page_count": 281,
+        "language": "English",
+    },
 
-@app.get("/greet")
-async def greet(name: Optional[str] = "User", age: int = 0) -> dict:
-    # if name is "User":
-    #     return {"message": "Hello, Guest!"}
-    return {"message": f"Hello, {name}! You are {age}."}
-
-class BookCreateModel(BaseModel):
-    title: str
-    author: str
-
-@app.post("/create_book")
-async def create_book(book: BookCreateModel):
-    return{
-        "title": book.title,
-        "author": book.author
+    {
+        "id": 3,
+        "title": "1984",
+        "author": "George Orwell",
+        "publisher": "Secker & Warburg",
+        "publish_date": "1949-06-08",
+        "page_count": 328,
+        "language": "English",
+    },
+    {
+        "id": 4,
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "publisher": "T. Egerton, Whitehall",
+        "publish_date": "1813-01-28",
+        "page_count": 279,
+        "language": "English",
     }
-
-@app.get("/get_headers",status_code=201)
-async def get_headers(
-    accept:str = Header(None),
-    content_type:str = Header(None),
-    user_agent: Optional[str] = Header(None),
-    Minoka:str = Header(None)
-):
-    request_headers = {}
-    request_headers["Accept"] = accept
-    request_headers["Content-Type"] = content_type
-    request_headers["User-Agent"] = user_agent
-    request_headers["mino"] = Minoka
-    return request_headers
+]
