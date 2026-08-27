@@ -8,10 +8,10 @@ from src.db.main import init_db
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Server is Starting up...")
+    print(f"Server is Starting up...")
     await init_db()
     yield
-    print("Server is stopped...")
+    print(f"Server is stopped...")
     
 
 version = "v1"
