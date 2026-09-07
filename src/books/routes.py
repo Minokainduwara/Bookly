@@ -4,7 +4,7 @@ from typing import List
 from fastapi.exceptions import HTTPException
 #from src.books.book_data import books
 from src.books.service import BookService
-from src.books.schemas import BookModel,BookUpdateModel
+from src.books.schemas import BookModel,BookUpdateModel,BookCreateModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.db.main import get_session
 
@@ -20,7 +20,7 @@ async def get_all_books(session:AsyncSession =Depends(get_session)):
 
 # Create a new book
 @book_router.post("/",status_code=status.HTTP_201_CREATED, response_model=BookModel)
-async def create_book(book_data:BookModel,session:AsyncSession =Depends(get_session)) -> dict:
+async def create_book(book_data:BookCreateModel,session:AsyncSession =Depends(get_session)) -> dict:
     new_book =await book_service.create_book(book_data,session)
     return new_book
 
